@@ -24,14 +24,20 @@
             height: auto;
             border-radius: 15px;
         }
-        .name-overlay {
+       .name-overlay {
             position: absolute;
-            bottom: 310px; /* Adjust to match your placement */
+            bottom: 40px; /* Moved much lower from 310px to around 40px */
             width: 100%;
             text-align: center;
             font-size: 24px;
             color: black;
             font-weight: bold;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+         @media screen and (max-width: 500px) {
+        .name-overlay {
+            font-size: 20px;
+            bottom: 25px;
         }
         .download-button {
             margin-top: 20px;
