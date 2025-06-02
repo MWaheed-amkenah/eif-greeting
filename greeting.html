@@ -1,101 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EIF EID Greeting Preview</title>
-    <style>
-        @font-face {
-            font-family: '29LT Bukra';
-            src: url('29lt-bukra.ttf');
-        }
-        body {
-            margin: 0;
-            padding: 20px;
-            background-color: #fff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-family: '29LT Bukra', sans-serif;
-        }
-        .card-container img {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            border-radius: 15px;
-        }
-       .name-overlay {
-            position: absolute;
-            bottom: 300px; /* Moved much lower from 310px to around 40px */
-            width: 100%;
-            text-align: center;
-            font-size: 24px;
-            color: black;
-            font-weight: bold;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
-}
-        @media screen and (max-width: 430px) {
-    .name-overlay {
-        font-size: 20px;
-        bottom: 250px; /* Adjusted for iPhone Pro Max */
+  <meta charset="UTF-8" />
+  <title>Eid Greeting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: Arial, sans-serif;
     }
-}
-         @media screen and (max-width: 500px) {
-     .name-overlay {
-            font-size: 20px;
-            bottom: 260px;
-   }
-}
-        @media screen and (max-width: 600px) {
-    .name-overlay {
-            font-size: 20px;
-            bottom: 270px;
-   }
-}
-        @media screen and (min-width: 700px){
-     .name-overlay {
-        bottom: 310px;
-        font-size: 20px;
-   }
-}
-/* For tablets (up to 900px) */
-        @media screen and (max-width: 900px) {
-     .name-overlay {
-        font-size: 24px;
-        bottom: 290px;
+
+    .card-container {
+      position: relative;
+      max-width: 400px;
+      width: 100%;
     }
-}  
-             .download-button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: #00534C;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 80%;
-            max-width: 300px;
-        }
-    </style>
+
+    .card-container img {
+      width: 100%;
+      display: block;
+      border-radius: 15px;
+    }
+
+    .name-overlay {
+      position: absolute;
+      bottom: 30px; /* lowered from 80px to 30px */
+      width: 100%;
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      color: #FFFFFF;
+    }
+
+    .download-button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #004B40;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="card-container" style="position: relative;">
-    <img src="EIF-eid.gif" alt="EID GIF" id="gifImage">
-    <div class="name-overlay" id="userNamePlaceholder">Your Name</div>
+<div class="card-container" id="card">
+  <img id="eidImage" src="EIF-eid.png" alt="Eid Card" crossorigin="anonymous">
+  <div class="name-overlay" id="userNamePlaceholder">Your Name</div>
 </div>
 
-<button class="download-button" onclick="downloadPersonalizedGif()">Download GIF</button>
+<button class="download-button" onclick="downloadCard()">Download Image</button>
 
 <script>
-    const params = new URLSearchParams(window.location.search);
-    const name = params.get("name") || "Guest";
-    document.getElementById("userNamePlaceholder").textContent = name;
+  // Get name from URL param
+  const params = new URLSearchParams(window.location.search);
+  const name = params.get("name") || "Guest";
+  document.getElementById("userNamePlaceholder").textContent = name;
 
-    function downloadPersonalizedGif() {
-        window.location.href = `https://eif.onrender.com/generate?name=${encodeURIComponent(name)}`;
-    }
+  function downloadCard() {
+    const card = document.getElementById("card");
+
+    html2canvas(card, {
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#ffffff',
+      scale: 2
+    }).then(canvas => {
+      const link = document.createElement("a");
+      link.download = `eid-greeting-${name}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }).catch(error => {
+      alert("Error generating image.");
+      console.error(error);
+    });
+  }
 </script>
 
 </body>
